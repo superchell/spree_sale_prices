@@ -10,6 +10,7 @@ Spree::Variant.class_eval do
       currencies << params[:currency] unless currencies.include? params[:currency]
     end
     run_on_prices(currencies) { |p| p.put_on_sale value, params }
+    touch
   end
   alias :create_sale :put_on_sale
 
