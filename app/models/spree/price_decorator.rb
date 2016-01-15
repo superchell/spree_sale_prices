@@ -29,7 +29,7 @@ Spree::Price.class_eval do
   alias :next_current_sale :next_active_sale
 
   def sale_price
-    active_sale.calculated_price if on_sale?
+    @sale_price ||= on_sale? ? active_sale.calculated_price : false 
   end
   
   def sale_price=(value)
@@ -47,7 +47,8 @@ Spree::Price.class_eval do
   end
 
   def on_sale?
-    sale_prices.active.present? && first_sale(sale_prices.active).value < original_price
+    active_sales = sale_prices.active
+    @on_sale ||= active_sales.present? && first_sale(active_sales).value < original_price
   end
 
   def original_price
@@ -59,7 +60,7 @@ Spree::Price.class_eval do
   end
   
   def price
-    on_sale? ? sale_price : original_price
+    @sale_price ||= (on_sale?) ? sale_price : original_price
   end
 
   def price=(price)
@@ -92,6 +93,6 @@ Spree::Price.class_eval do
   
   private
     def first_sale(scope)
-      scope.order("created_at DESC").first
+      @first_sale ||= scope.order("created_at DESC").first
     end
 end
