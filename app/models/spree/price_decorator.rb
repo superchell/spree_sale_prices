@@ -60,7 +60,7 @@ Spree::Price.class_eval do
   end
   
   def price
-    @sale_price ||= (on_sale?) ? sale_price : original_price
+    @price ||= (on_sale?) ? sale_price : original_price
   end
 
   def price=(price)
