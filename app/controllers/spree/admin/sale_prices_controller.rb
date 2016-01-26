@@ -17,7 +17,16 @@ module Spree
 
       def destroy
         @sale_price = Spree::SalePrice.find(params[:id])
-        @sale_price.destroy
+
+        # Destroy all sale prices by finding via attributes
+        Spree::Product.find_by_id(@sale_price.variant.product.id).sale_prices.where({
+          value: @sale_price.value,
+          start_at: @sale_price.start_at,
+          end_at: @sale_price.end_at,
+          enabled: @sale_price.enabled,
+        }).destroy_all
+        #@sale_price.destroy
+
         respond_with(@sale_price)
       end
 

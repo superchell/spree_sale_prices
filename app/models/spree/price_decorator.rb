@@ -1,4 +1,8 @@
+require 'memoist'
+
 Spree::Price.class_eval do
+  extend Memoist
+
   has_many :sale_prices
   
   def put_on_sale(value, params = {})
@@ -22,6 +26,8 @@ Spree::Price.class_eval do
     first_sale(sale_prices.active) if on_sale?
   end
   alias :current_sale :active_sale
+  
+  memoize :active_sale
 
   def next_active_sale
     first_sale(sale_prices) if sale_prices.present?
@@ -29,7 +35,7 @@ Spree::Price.class_eval do
   alias :next_current_sale :next_active_sale
 
   def sale_price
-    @sale_price ||= on_sale? ? active_sale.calculated_price : false 
+    on_sale? ? active_sale.calculated_price : false 
   end
   
   def sale_price=(value)
@@ -48,8 +54,10 @@ Spree::Price.class_eval do
 
   def on_sale?
     active_sales = sale_prices.active
-    @on_sale ||= active_sales.present? && first_sale(active_sales).value < original_price
+    active_sales.present? && first_sale(active_sales).value < original_price
   end
+
+  memoize :on_sale?
 
   def original_price
     self[:amount]
@@ -60,7 +68,7 @@ Spree::Price.class_eval do
   end
   
   def price
-    @price ||= (on_sale?) ? sale_price : original_price
+    (on_sale?) ? sale_price : original_price
   end
 
   def price=(price)
@@ -70,6 +78,8 @@ Spree::Price.class_eval do
       self[:amount] = Spree::LocalizedNumber.parse(price)
     end
   end
+
+  memoize :price
   
   def amount
     price
@@ -90,9 +100,18 @@ Spree::Price.class_eval do
   def stop_sale
     active_sale.stop if active_sale.present?
   end
+
+  def destroy_sale
+    active_sale.destroy if active_sale.present?
+  end
   
   private
     def first_sale(scope)
-      @first_sale ||= scope.order("created_at DESC").first
+      scope.order("created_at DESC").first # Memoize this
     end
+
+    def flush_class_cache
+       self.class.flush_cache
+    end
+    after_save :flush_class_cache
 end

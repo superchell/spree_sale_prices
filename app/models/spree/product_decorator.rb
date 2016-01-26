@@ -39,6 +39,11 @@ Spree::Product.class_eval do
     self.touch
   end
 
+  def destroy_sale(all_variants = true)
+    run_on_variants(all_variants) { |v| v.destroy_sale }
+    self.touch
+  end
+
   private
     def run_on_variants(all_variants, &block)
       if all_variants && variants.present?
