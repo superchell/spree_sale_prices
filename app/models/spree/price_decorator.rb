@@ -104,14 +104,14 @@ Spree::Price.class_eval do
   def destroy_sale
     active_sale.destroy if active_sale.present?
   end
+
+  def flush_class_cache
+     self.class.flush_cache
+  end
+  after_save :flush_class_cache
   
   private
     def first_sale(scope)
       scope.order("created_at DESC").first # Memoize this
     end
-
-    def flush_class_cache
-       self.class.flush_cache
-    end
-    after_save :flush_class_cache
 end
