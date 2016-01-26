@@ -26,7 +26,7 @@ Spree::Price.class_eval do
     first_sale(sale_prices.active) if on_sale?
   end
   alias :current_sale :active_sale
-  
+
   memoize :active_sale
 
   def next_active_sale
@@ -106,7 +106,7 @@ Spree::Price.class_eval do
   end
 
   def flush_class_cache
-     self.class.flush_cache
+     self.flush_cache
   end
   after_save :flush_class_cache
   
