@@ -20,22 +20,23 @@ module Spree
 
         # Destroy all sale prices by finding via attributes
         product = Spree::Product.find_by_id(@sale_price.variant.product.id)
-        product.sale_prices.where({
-          value: @sale_price.value,
-          start_at: @sale_price.start_at,
-          end_at: @sale_price.end_at,
-          enabled: @sale_price.enabled,
-        }).destroy_all
 
-        # Invalidate cache
-        product.sale_prices.reset
+        delete_sale_prices(product, @sale_price)
+        delete_sale_prices(product.master, @sale_price)
         
-        #@sale_price.destroy
-
         respond_with(@sale_price)
       end
 
       private
+
+      def delete_sale_prices(scope, sale_price)
+        scope.sale_prices.where({
+          value: sale_price.value,
+          start_at: sale_price.start_at,
+          end_at: sale_price.end_at,
+          enabled: sale_price.enabled,
+        }).destroy_all
+      end
 
       def load_product
         @product = Spree::Product.find_by(slug: params[:product_id])
