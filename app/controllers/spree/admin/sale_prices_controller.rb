@@ -44,6 +44,11 @@ module Spree
         scope.prices.each do |p|
           p.flush_class_cache
         end
+
+        # Touch everything (ha)
+        scope.variants.each do |v|
+          v.touch
+        end
       end
 
       def load_product
