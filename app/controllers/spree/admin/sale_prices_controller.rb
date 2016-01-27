@@ -23,6 +23,11 @@ module Spree
 
         delete_sale_prices(product, @sale_price)
         delete_sale_prices(product.master, @sale_price)
+
+        # Touch everything (ha)
+        product.variants.each do |v|
+          v.touch
+        end
         
         respond_with(@sale_price)
       end
@@ -43,11 +48,6 @@ module Spree
         # Flush price cache
         scope.prices.each do |p|
           p.flush_class_cache
-        end
-
-        # Touch everything (ha)
-        scope.variants.each do |v|
-          v.touch
         end
       end
 
