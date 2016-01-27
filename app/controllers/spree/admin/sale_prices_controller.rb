@@ -30,13 +30,15 @@ module Spree
       private
 
       def delete_sale_prices(scope, sale_price)
-        # Remove sale prices
+        # Destroy sale prices
         scope.sale_prices.where({
           value: sale_price.value,
           start_at: sale_price.start_at,
           end_at: sale_price.end_at,
           enabled: sale_price.enabled,
-        }).destroy_all
+        }).each do |sp|
+          sp.destroy
+        end
 
         # Flush price cache
         scope.prices.each do |p|
