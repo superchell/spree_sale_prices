@@ -49,6 +49,7 @@ module Spree
         scope.prices.each do |p|
           p.flush_class_cache
         end
+
       end
 
       def load_product

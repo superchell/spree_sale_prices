@@ -57,9 +57,14 @@ module Spree
 
     protected
       def touch_product
-        self.variant.product.sale_prices.reset
-        self.variant.product.master.sale_prices.reset
-        self.variant.product.touch
+        p = self.variant.product
+        # Product
+        p.prices.reset
+        p.sale_prices.reset
+        # Master
+        p.master.prices.reset
+        p.master.sale_prices.reset
+        p.touch
       end
 
   end
