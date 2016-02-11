@@ -12,7 +12,7 @@ module Spree
 
     scope :active, -> { where(enabled: true).where('(start_at <= ? OR start_at IS NULL) AND (end_at >= ? OR end_at IS NULL)', Time.now, Time.now) }
 
-    before_destroy :touch_product
+    after_destroy :touch_product
 
     # TODO make this work or remove it
     #def self.calculators
