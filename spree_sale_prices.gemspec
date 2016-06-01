@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_sale_prices'
-  s.version     = '3.0.3.3j'
+  s.version     = '3.1.0.1'
   s.summary     = 'Adds sale pricing functionality to Spree Commerce'
   s.description = 'Adds sale pricing functionality to Spree Commerce. It enables timed sale planning for different currencies.'
   s.required_ruby_version = '>= 1.9.3'
@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 3.0'
+  s.add_dependency 'spree_core', '~> 3.1'
 
   s.add_development_dependency 'rspec-rails',  '~> 3.1'
   s.add_development_dependency 'capybara',  '~> 2.4'
