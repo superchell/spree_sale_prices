@@ -17,11 +17,40 @@ module Spree
 
       def destroy
         @sale_price = Spree::SalePrice.find(params[:id])
-        @sale_price.destroy
+
+        # Destroy all sale prices by finding via attributes
+        product = Spree::Product.find_by_id(@sale_price.variant.product.id)
+
+        delete_sale_prices(product, @sale_price)
+        delete_sale_prices(product.master, @sale_price)
+
+        # Touch everything (ha)
+        product.variants.each do |v|
+          v.touch
+        end
+        
         respond_with(@sale_price)
       end
 
       private
+
+      def delete_sale_prices(scope, sale_price)
+        # Destroy sale prices
+        scope.sale_prices.where({
+          value: sale_price.value,
+          start_at: sale_price.start_at,
+          end_at: sale_price.end_at,
+          enabled: sale_price.enabled,
+        }).each do |sp|
+          sp.destroy
+        end
+
+        # Flush price cache
+        scope.prices.each do |p|
+          p.flush_class_cache
+        end
+
+      end
 
       def load_product
         @product = Spree::Product.find_by(slug: params[:product_id])

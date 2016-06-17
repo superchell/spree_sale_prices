@@ -10,6 +10,7 @@ Spree::Variant.class_eval do
       currencies << params[:currency] unless currencies.include? params[:currency]
     end
     run_on_prices(currencies) { |p| p.put_on_sale value, params }
+    touch
   end
   alias :create_sale :put_on_sale
 
@@ -56,6 +57,10 @@ Spree::Variant.class_eval do
   def stop_sale(currencies = nil)
     run_on_prices(currencies) { |p| p.stop_sale }
   end
+
+  def destroy_sale(currencies = nil)
+    run_on_prices(currencies) { |p| p.destroy_sale }
+  end
   
   private
     # runs on all prices or on the ones with the currencies you've specified
@@ -66,6 +71,7 @@ Spree::Variant.class_eval do
       else
         prices.each { |p| block.call p }
       end
+      touch
     end
 
 end

@@ -12,7 +12,8 @@ module Spree
 
     scope :active, -> { where(enabled: true).where('(start_at <= ? OR start_at IS NULL) AND (end_at >= ? OR end_at IS NULL)', Time.now, Time.now) }
 
-    before_destroy :touch_product
+    after_destroy :touch_product
+
     # TODO make this work or remove it
     #def self.calculators
     #  Rails.application.config.spree.calculators.send(self.to_s.tableize.gsub('/', '_').sub('spree_', ''))
@@ -56,7 +57,14 @@ module Spree
 
     protected
       def touch_product
-        self.variant.product.touch
+        p = self.variant.product
+        # Product
+        p.prices.reset
+        p.sale_prices.reset
+        # Master
+        p.master.prices.reset
+        p.master.sale_prices.reset
+        p.touch
       end
 
   end
