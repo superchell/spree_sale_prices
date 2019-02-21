@@ -1,5 +1,5 @@
 module Spree
-  class SalePrice < ActiveRecord::Base
+  class SalePrice < Spree::Base
 
     belongs_to :price, class_name: "Spree::Price"
     delegate :currency, to: :price
