@@ -2,7 +2,7 @@ module Spree
   class SalePrice < Spree::Base
 
     belongs_to :price, class_name: "Spree::Price"
-    delegate :currency, to: :price
+    delegate :currency, to: :find_or_build_price
 
     has_one :variant, through: :price
 
@@ -18,6 +18,9 @@ module Spree
     #def self.calculators
     #  Rails.application.config.spree.calculators.send(self.to_s.tableize.gsub('/', '_').sub('spree_', ''))
     #end
+    def find_or_build_price
+      price || build_price
+    end
 
     def calculator_type
       calculator.class.to_s if calculator
