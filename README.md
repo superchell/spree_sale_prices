@@ -8,7 +8,7 @@ sales, have a historical record of sale prices and put sales on hold.
 Requirements
 ------------
 
-This Gem has been tested with Spree 2.4-stable and Ruby 2.2.1. 
+This Gem has been tested with Spree 3.7-stable and Ruby 2.5.3. 
 It does not support Ruby versions earlier than 1.9 for sure.
 
 Installing
@@ -16,7 +16,7 @@ Installing
 
 In your Gemfile add the following for the latest released version:
 
-    gem 'spree_sale_prices', github: 'renuo/spree-sale-prices', branch: '2.4-stable'
+    gem 'spree_sale_prices', github: 'superchell/spree_sale_prices', branch: '3-7-stable'
 
 Install the Gem:
 
