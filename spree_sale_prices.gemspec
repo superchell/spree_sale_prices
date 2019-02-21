@@ -2,14 +2,14 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_sale_prices'
-  s.version     = '3.1.0.1'
+  s.version     = '3.7.0.1'
   s.summary     = 'Adds sale pricing functionality to Spree Commerce'
   s.description = 'Adds sale pricing functionality to Spree Commerce. It enables timed sale planning for different currencies.'
   s.required_ruby_version = '>= 1.9.3'
 
   s.author            = 'Renuo GmbH, Jonathan Dean'
   s.email             = 'info@renuo.ch'
-  s.homepage          = 'https://github.com/renuo/spree_sale_prices'
+  s.homepage          = 'https://github.com/superchell/spree_sale_prices'
   s.license           = 'BSD-3'
 
   #s.files       = `git ls-files`.split("\n")
@@ -19,11 +19,11 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'spree_core', '~> 3-0-stable'
   s.add_dependency 'slim-rails', '~> 3.1.0'
+  s.add_dependency 'memoist', '~> 0.14'
 
   s.add_development_dependency 'rspec-rails',  '~> 3.1'
   s.add_development_dependency 'capybara',  '~> 2.4'
   s.add_development_dependency 'database_cleaner',  '~> 1.4'
   s.add_development_dependency 'factory_girl', '~> 4.5'
   s.add_development_dependency 'simplecov', '~> 0.10'
-  s.add_development_dependency 'memoist', '~> 0.14'
 end
