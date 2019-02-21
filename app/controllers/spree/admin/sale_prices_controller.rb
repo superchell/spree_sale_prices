@@ -2,7 +2,7 @@ module Spree
   module Admin
     class SalePricesController < BaseController
 
-      before_filter :load_product
+      before_action :load_product
 
       respond_to :js, :html
 
