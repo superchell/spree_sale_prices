@@ -3,7 +3,7 @@ ru:
   original_price: "Первоначальная цена (стандартная валюта)"
   product_sale_prices: "Скидки на товар"
   add_product_sale_prices: "Добавить скидку"
-  sale_price_amount: 'Итого'
+  sale_price_amount: 'Цена со скидкой'
   sale_price_active: 'Скидка активна'
   sale_price_currency: "Валюта"
   sale_price_start_at: "Дата начала"
