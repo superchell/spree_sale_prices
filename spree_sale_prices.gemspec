@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.add_dependency 'spree_core', '~> 3-0-stable'
-  s.add_dependency 'slim-rails', '~> 3.1.0'
   s.add_dependency 'memoist', '~> 0.14'
 
   s.add_development_dependency 'rspec-rails',  '~> 3.1'
