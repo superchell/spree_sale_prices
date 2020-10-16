@@ -1,8 +1,8 @@
 <tr class="spree-product-sale-price" data-hook="products_row" id="<%= spree_dom_id(sale_price); %>">
   <td class="align-center"><%= sale_price.active? ? t('yes') : t('no') %></td>
   <td><%= sale_price.display_price.to_html %></td>
-  <td><%= (sale_price.start_at.strftime('%d/%m/%Y')) if sale_price.start_at %></td>
-  <td><%= (sale_price.end_at.strftime('%d/%m/%Y')) if sale_price.end_at %></td>
+  <td><%= safe_display_date_format(sale_price.start_at) %></td>
+  <td><%= safe_display_date_format(sale_price.end_at)%></td>
   <td class="actions">
     <%= link_to_delete sale_price, {url: admin_product_sale_price_url(product, sale_price.id), no_text: true} %>
   </td>

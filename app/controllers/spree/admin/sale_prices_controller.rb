@@ -46,8 +46,8 @@ module Spree
         end
 
         # Flush price cache
-        scope.prices.each do |p|
-          p.flush_class_cache
+        scope.prices.each do |price|
+          price.flush_class_cache
         end
 
       end

@@ -10,7 +10,10 @@ module Spree
     validates :calculator, presence: true
     accepts_nested_attributes_for :calculator
 
-    scope :active, -> { where(enabled: true).where('(start_at <= ? OR start_at IS NULL) AND (end_at >= ? OR end_at IS NULL)', Time.now, Time.now) }
+    scope :active, -> do
+      now = Time.zone.now
+      where(enabled: true).where('(start_at <= ? OR start_at IS NULL) AND (end_at >= ? OR end_at IS NULL)', now, now)
+    end
 
     after_destroy :touch_product
 
@@ -43,14 +46,16 @@ module Spree
     end
 
     def start(end_time = nil)
-      end_time = nil if end_time.present? && end_time <= Time.now # if end_time is not in the future then make it nil (no end)
+      now = Time.zone.now
+
+      end_time = nil if end_time.present? && end_time <= now # if end_time is not in the future then make it nil (no end)
       attr = { end_at: end_time, enabled: true }
-      attr[:start_at] = Time.now if self.start_at.present? && self.start_at > Time.now # only set start_at if it's not set in the past
-      update_attributes(attr)
+      attr[:start_at] = now if self.start_at.present? && self.start_at > now # only set start_at if it's not set in the past
+      update(attr)
     end
 
     def stop
-      update_attributes({ end_at: Time.now, enabled: false })
+      update(end_at: Time.zone.now, enabled: false)
     end
 
     # Convenience method for displaying the price of a given sale_price in the table
@@ -60,14 +65,16 @@ module Spree
 
     protected
       def touch_product
-        p = self.variant.product
+        product = self.variant.product
+
         # Product
-        p.prices.reset
-        p.sale_prices.reset
+        product.prices.reset
+        product.sale_prices.reset
+
         # Master
-        p.master.prices.reset
-        p.master.sale_prices.reset
-        p.touch
+        product.master.prices.reset
+        product.master.sale_prices.reset
+        product.touch
       end
 
   end
