@@ -7,10 +7,10 @@ describe Spree::Price do
     sale_price = price.new_sale(15.99)
 
     expect(price.on_sale?).to be false
-    expect(price.price).to eql BigDecimal.new(19.99, 4)
+    expect(price.price).to eql 19.99
 
     expect(sale_price).to have_attributes({
-      value: BigDecimal.new(15.99, 4),
+      value: 15.99, 
       start_at: be_within(1.second).of(Time.now),
       end_at: nil,
       enabled: true,
@@ -23,7 +23,7 @@ describe Spree::Price do
     price.put_on_sale 15.95
 
     expect(price.on_sale?).to be true
-    expect(price.price).to eql BigDecimal.new(15.95, 4)
+    expect(price.price).to eql 15.95
     expect(price.original_price).to eql(19.99)
   end
 
@@ -37,13 +37,13 @@ describe Spree::Price do
   end
 
   context 'calculating discount percentage' do
-    it 'returns 0 if there\'s no original price' do
+    it 'returns 0 if there is no original price' do
       price = create(:price)
-      price.amount = BigDecimal(0)
+      price.amount = 0
       expect(price.discount_percent.to_f).to eql 0.0
     end
 
-    it 'returns 0 if it\'s not on sale' do
+    it 'returns 0 if it is not on sale' do
       price = create(:price)
       expect(price.discount_percent.to_f).to eql 0.0
     end

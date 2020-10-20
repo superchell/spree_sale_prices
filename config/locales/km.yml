@@ -1,0 +1,31 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+km:
+  spree:
+    sale_price: "តំលៃ​លក់"
+    original_price: "តម្លៃដើម (រូបិយប័ណ្ណដើម)"
+    product_sale_prices: "តម្លៃលក់ផលិតផល"
+    add_product_sale_prices: "បន្ថែមតម្លៃលក់ផលិតផល"
+    sale_price_amount: "ចំនួនទឹកប្រាក់"
+    sale_price_active: "ជាផ្លូវការ"
+    sale_price_currency: "រូបិយប័ណ្ណ"
+    sale_price_start_at: "កាលបរិច្ឆេទចាប់ផ្តើមលក់"
+    sale_price_end_at: "កាលបរិច្ឆេទបញ្ចប់ការលក់"
+    sale_price_enabled: "បើកដំណើរការ"
+
+    sale_prices:
+      discount:
+        "off": "off"
+        saved: "Saved"
+
+      dislay:
+        on_sale: "%{prepend} %{price} %{append}"
+        original: "%{prepend} %{price} %{append}"
+        discount: "%{prepend} %{discount} %{append}"
+
+      calculators:
+        fix_amount:
+          description: "គណនាតម្លៃលក់ផលិតផលជាមួយនឹងតម្លៃលក់បញ្ចុះតម្លៃថេរ"
+        percentage:
+          description: "គណនាតម្លៃលក់ផលិតផលជាមួយនឹងតម្លៃលក់បញ្ចុះតម្លៃភាគរយ"

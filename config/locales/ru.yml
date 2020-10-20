@@ -4,9 +4,25 @@ ru:
     original_price: "Первоначальная цена (стандартная валюта)"
     product_sale_prices: "Скидки на товар"
     add_product_sale_prices: "Добавить скидку"
-    sale_price_amount: 'Цена со скидкой'
-    sale_price_active: 'Скидка активна'
+    sale_price_amount: "Цена со скидкой"
+    sale_price_active: "Скидка активна"
     sale_price_currency: "Валюта"
     sale_price_start_at: "Дата начала"
     sale_price_end_at: "Дата окончания"
     sale_price_enabled: "Скидка включена"
+
+    sale_prices:
+      discount:
+        "off": "off"
+        saved: "Saved"
+
+      dislay:
+        on_sale: "%{prepend} %{price} %{append}"
+        original: "%{prepend} %{price} %{append}"
+        discount: "%{prepend} %{discount} %{append}"
+
+      calculators:
+        fix_amount:
+          description: "Calculates the sale price for a Variant by returning the provided fixed sale price"
+        percentage:
+          description: "Calculates the sale price for a Variant by taking off a percentage of the original price"

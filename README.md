@@ -1,20 +1,29 @@
-Spree Sale Prices
-=================
+# Spree Sale Prices
 
 A Spree Commerce extension (Rails Engine) that lets you set sale prices on products, either by a fixed sale price or a
 percentage off of the original price. Sale prices have a start date, end date and enabled flag to allow you to schedule
 sales, have a historical record of sale prices and put sales on hold.
 
-Requirements
-------------
+## Examples
 
-This Gem has been tested with Spree 3.7-stable and Ruby 2.5.3. 
+![Product Listing](spec/support/example/spree_sale_prices-1.jpg)
+![Product Detail](spec/support/example/spree_sale_prices-2.jpg)
+![Cart](spec/support/example/spree_sale_prices-3.jpg)
+
+## Requirements
+
+This Gem has been tested with Spree 3.7-stable and Ruby 2.5.3.
 It does not support Ruby versions earlier than 1.9 for sure.
 
-Installing
-----------
+## Installing
 
 In your Gemfile add the following for the latest released version:
+
+For spree ~> 4.1.0, use the master branch:
+
+    gem 'spree_sale_prices', github: 'superchell/master',
+
+For older spree use:
 
     gem 'spree_sale_prices', github: 'superchell/spree_sale_prices', branch: '3-7-stable'
 
@@ -25,13 +34,13 @@ Install the Gem:
 Copy the migrations in your app:
 
     bundle exec rake railties:install:migrations
+    bundle exec rails g spree_sale_prices:install
 
 Run database migrations in your app:
 
     bundle exec rake db:migrate
 
-Usage
------
+## Usage
 
 The following example is assuming that you have a product in your database with the price of $20 and you want to put it on sale immediately for $10:
 
@@ -60,81 +69,78 @@ it will return values from your Master variant. If accessed on the Product when 
 all variants including the master variants. If you change the all_variants parameter to false, it will only then write to
 the master variant and leave the other variants untouched.
 
-**price**                                             Returns the sale price if currently on sale, the original price if not
+**price** Returns the sale price if currently on sale, the original price if not
 
-**sale_price**                                        Returns the sale price if currently on sale, nil if not
+**sale_price** Returns the sale price if currently on sale, nil if not
 
-**original_price**                                    Always returns the original price
+**original_price** Always returns the original price
 
-**discount_percent**                                  Return the percentage of discount
+**discount_percent** Return the percentage of discount
 
-**on_sale?**                                          Return a boolean indication if it is currently on sale (enabled is set to true and we are currently within the active date range)
+**on_sale?** Return a boolean indication if it is currently on sale (enabled is set to true and we are currently within the active date range)
 
-**put\_on\_sale(value[, ...])**                       Put this item on sale (see below sections for options and more information)
+**put_on_sale(value[, ...])** Put this item on sale (see below sections for options and more information)
 
-**create_sale**                                       Alias of ```put_on_sale```
+**create_sale** Alias of `put_on_sale`
 
-**active_sale**                                       Returns the currently active sale (Spree::SalePrice object) that price and sale_price will use. If there is more than one potentially active sale, the one with the latest created_at timestamp is used. See the section on "Multiple active sales" for the reasoning behind that.
+**active_sale** Returns the currently active sale (Spree::SalePrice object) that price and sale_price will use. If there is more than one potentially active sale, the one with the latest created_at timestamp is used. See the section on "Multiple active sales" for the reasoning behind that.
 
-**current_sale**                                      Alias of ```active_sale```
+**current_sale** Alias of `active_sale`
 
-**next_active_sale**                                  Currently returns the latest created Spree::SalePrice object (active or not.) The name is kind of misleading so it should probably be changed. We may also want to make this only return the latest created inactive sale, since that's kind of the original intention of it to be used inside of ```enable_sale``` and ```start_sale```. Needs more thought.
+**next_active_sale** Currently returns the latest created Spree::SalePrice object (active or not.) The name is kind of misleading so it should probably be changed. We may also want to make this only return the latest created inactive sale, since that's kind of the original intention of it to be used inside of `enable_sale` and `start_sale`. Needs more thought.
 
-**next_current_sale**                                 Alias of ```next_active_sale```
+**next_current_sale** Alias of `next_active_sale`
 
-**enable_sale(all_variants = true)**                  Enable the sale returned by ```next_active_sale``` by setting that Spree::SalePrice object's enabled flag to true. Does not change the start and end dates so it does not necessary mean that the sale will then become active. Therefore, you can enable a sale in this manner and still have it not take effect on the site. (Use ```start_sale``` for that) _Note:_ The all_variants flag is only available on Spree::Product (not on Spree::Variant)
+**enable_sale(all_variants = true)** Enable the sale returned by `next_active_sale` by setting that Spree::SalePrice object's enabled flag to true. Does not change the start and end dates so it does not necessary mean that the sale will then become active. Therefore, you can enable a sale in this manner and still have it not take effect on the site. (Use `start_sale` for that) _Note:_ The all_variants flag is only available on Spree::Product (not on Spree::Variant)
 
-**disable_sale(all_variants = true)**                 Disable the sale returned by ```active_sale``` by setting that Spree::SalePrice object's enabled flag to false. This always makes the sale inactive, regardless of the date range. _Note:_ The all_variants flag is only available on Spree::Product (not on Spree::Variant)
+**disable_sale(all_variants = true)** Disable the sale returned by `active_sale` by setting that Spree::SalePrice object's enabled flag to false. This always makes the sale inactive, regardless of the date range. _Note:_ The all_variants flag is only available on Spree::Product (not on Spree::Variant)
 
-**start_sale(end_time = nil, all_variants = true)**   Start the sale returned by ```next_active_sale``` (and make it active) by setting that Spree::SalePrice object's enabled flag to true and ensuring that the current time is in between the start and end dates. _Note:_ The all_variants flag is only available on Spree::Product (not on Spree::Variant)
+**start_sale(end_time = nil, all_variants = true)** Start the sale returned by `next_active_sale` (and make it active) by setting that Spree::SalePrice object's enabled flag to true and ensuring that the current time is in between the start and end dates. _Note:_ The all_variants flag is only available on Spree::Product (not on Spree::Variant)
 
-**stop_sale(all_variants = true)**                    Stop the sale returned by ```active_sale``` by setting that Spree::SalePrice object's enabled flag to false and the end date to the current time. _Note:_ The all_variants flag is only available on Spree::Product (not on Spree::Variant)
+**stop_sale(all_variants = true)** Stop the sale returned by `active_sale` by setting that Spree::SalePrice object's enabled flag to false and the end date to the current time. _Note:_ The all_variants flag is only available on Spree::Product (not on Spree::Variant)
 
 Since you have these methods available to both your products and variants, it is possible to put the product and all
-variants on sale or just particular variants. See the explanation of put\_on\_sale below for more information.
+variants on sale or just particular variants. See the explanation of put_on_sale below for more information.
 
-
-Options for put\_on\_sale (create_sale)
----------------------------------------
+## Options for put_on_sale (create_sale)
 
     put_on_sale(value, { calculator_type: Spree::Calculator::PercentOffSalePriceCalculator.new, all_variants: true, start_at: Time.now, end_at: nil, enabled: true })
 
-**value**           (_float_)
+**value** (_float_)
 
 This is either the sale price that you want to sell the product for (if using the default FixedAmountSalePriceCalculator)
 or the float representation of the percentage off of the original price (between 0 and 1)
 
-**calculator_type** (_string_)    - Default: **"Spree::Calculator::FixedAmountSalePriceCalculator"**
+**calculator_type** (_string_) - Default: **"Spree::Calculator::FixedAmountSalePriceCalculator"**
 
 Specify which calculator to use for determining the sale price. The default calculator will take the value as is and use it
 as the sale price. You can also pass in another calculator value to determine the sale price differently, such as the
 provided "Spree::Calculator::PercentOffSalePriceCalculator", which will take a given percentage off of the original
 price.
 
-**all_variants**    (_boolean_)   - Default: **true**
+**all_variants** (_boolean_) - Default: **true**
 
 _Only for Spree::Product_. By default it set all of variants (including the master variant) for the product on sale. If you change this value to false
 it will only put the master variant on sale. Only change this if you know the implications.
 
-**start_at**        (_DateTime or nil_)  - Default: **Time.now**
+**start_at** (_DateTime or nil_) - Default: **Time.now**
 
 Specify the date and time that the sale takes effect. By default it uses the current time. It can also be nil but it's not
 recommended because for future reporting reasons you will probably want to know exactly when the sale started.
 
-**end_at**          (_DateTime or nil_)  - Default: **nil**
+**end_at** (_DateTime or nil_) - Default: **nil**
 
 Specify the end date of the sale or nil to keep the sale running indefinitely. For future reporting reasons it's recommended
 to set this at the time you decide to deactivate the sale rather than just setting enabled to false.
 
-**enabled**         (_boolean_)   - Default: **true**
+**enabled** (_boolean_) - Default: **true**
 
 Disable this sale temporarily by setting this to false (overrides the start_at and end_at range). It's not recommended to
 use this to stop the sale when you decide to end it because it could impact future reporting needs. It's mainly intended
 to keep the sale disabled while you are still working on it and it isn't quite ready, or if you need to disable temporarily
 for some reason in the middle of a sale.
 
-Multiple active sales
----------------------
+## Multiple active sales
 
 Technically you can have more than one active sale at a time. However, because Spree is going to use product.price or
 variant.price throughout (with no additional parameters or means to identify a particular sale), we have to consistently
@@ -144,8 +150,37 @@ currently running one, you just add a new active sale. Then when that new sale e
 (provided it's still active, of course.) So you can add more than one active sale but only one will actually be used at
 a given time.
 
-Testing
--------
+## View helper
+
+### Products page
+
+```
+
+  <!-- spree/shared/_product.html -->
+  <div class='product-component-price'>
+    <%= content_sale_price(product) %>
+  </div>
+```
+
+### Product detail page
+
+```
+  <!--spree/orders/_cart_form.html.erb -->
+  <div>
+    <%= content_discount_price(@product) %>
+  </div>
+```
+
+### Example view cart page
+
+```
+<!-- spree/orders/_line_item_data.html.erb -->
+<%= content_discount_price(line_item.variant) %>
+```
+
+For more details, see [app/helpers/spree/sale_price_helper.rb](app/helpers/spree/sale_price_helper.rb)
+
+## Testing
 
 Tests are in progress, so there aren't any yet. I know, TDD, blah blah blah.
 
@@ -155,8 +190,7 @@ Be sure to bundle your dependencies and then create a dummy test app for the spe
     $ bundle exec rake test_app
     $ bundle exec rspec
 
-Source
-------
+## Source
 
 This project derives from a fork of [jpstokes/spree-sale-pricing](https://github.com/jpstokes/spree-sale-pricing) and was originally developed by Jonathan Dean.
 

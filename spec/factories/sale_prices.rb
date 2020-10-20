@@ -5,31 +5,16 @@ FactoryBot.define do
   # require 'spree_sale_prices/factories'
 
   factory :sale_price, class: Spree::SalePrice do
-    value 10.90
-    start_at nil
-    end_at nil
-    enabled false
+    value { 10.90 }
+    start_at { nil }
+    end_at { nil }
+    enabled { false }
     calculator { Spree::Calculator::FixedAmountSalePriceCalculator.new }
     association :price, factory: :international_price
 
     factory :active_sale_price do
-      start_at { Time.now }
-      enabled true
+      start_at { 1.day.ago }
+      enabled { true }
     end
   end
-
-  factory :international_price, parent: :price do
-    currency { Faker::Currency.code }
-  end
-
-  factory :multi_price_variant, parent: :variant do
-    transient do
-      prices_count 3
-    end
-
-    after(:create) do |variant, evaluator|
-      create_list(:international_price, evaluator.prices_count, variant: variant)
-    end
-  end
-
 end

@@ -7,9 +7,25 @@ de:
     original_price: "Originalpreis (Standard Währung)"
     product_sale_prices: "Aktionspreise des Produktes"
     add_product_sale_prices: "Aktionspreise hinzufügen"
-    sale_price_amount: 'Wert'
-    sale_price_active: 'Aktiv'
+    sale_price_amount: "Wert"
+    sale_price_active: "Aktiv"
     sale_price_currency: "Währung"
     sale_price_start_at: "Startdatum"
     sale_price_end_at: "Enddatum"
     sale_price_enabled: "Aktiviert"
+
+    sale_prices:
+      discount:
+        "off": "off"
+        saved: "Saved"
+
+      dislay:
+        on_sale: "%{prepend} %{price} %{append}"
+        original: "%{prepend} %{price} %{append}"
+        discount: "%{prepend} %{discount} %{append}"
+
+      calculators:
+        fix_amount:
+          description: "Calculates the sale price for a Variant by returning the provided fixed sale price"
+        percentage:
+          description: "Calculates the sale price for a Variant by taking off a percentage of the original price"
